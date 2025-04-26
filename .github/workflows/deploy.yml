@@ -35,7 +35,7 @@ jobs:
         with:
           context: .
           push: true
-          tags: ${{ steps.meta.outputs.tags }}
+          tags: ci-cd
           labels: ${{ steps.meta.outputs.labels }}
 
   deploy:
@@ -54,8 +54,7 @@ jobs:
           script: |
             docker login -u ${{ env.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_TOKEN }}
 
-            SHORT_SHA=$(echo ${{ github.sha }} | cut -c1-7)
-            IMAGE_TAG=${{ env.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:${SHORT_SHA}
+            IMAGE_TAG=${{ env.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:ci-cd
 
             docker pull $IMAGE_TAG
 
