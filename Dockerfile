@@ -1,18 +1,13 @@
-FROM node:20
+FROM node:20-alpine
 
-WORKDIR /app
+WORKDIR /usr/src/app
 
-# Copy package.json and package-lock.json first to leverage Docker cache
-COPY package.json package-lock.json prisma ./
+COPY package*.json ./
 
-# Install dependencies
-RUN npm install
+RUN npm ci --only=production
 
-# Copy the rest of the application files
 COPY . .
 
-# Build TypeScript
-RUN npx tsc
+EXPOSE 3000
 
-# Set working directory for app to run
-CMD ["node", "dist/index.js"]
+CMD [ "npm", "start" ]
