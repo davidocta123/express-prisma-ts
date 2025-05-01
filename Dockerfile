@@ -11,9 +11,8 @@ RUN npm install
 # Copy the rest of the application files
 COPY . .
 
-RUN npm run build
-
-EXPOSE 3000
+# Build TypeScript
+RUN npx tsc
 
 # Set working directory for app to run
 CMD ["node", "dist/index.js"]
