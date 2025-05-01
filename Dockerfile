@@ -2,18 +2,17 @@ FROM node:20
 
 WORKDIR /app
 
-# Copy package.json and lock first
-COPY package.json package-lock.json ./
+# Copy package.json and package-lock.json first to leverage Docker cache
+COPY package.json package-lock.json prisma ./
 
 # Install dependencies
 RUN npm install
 
-# Copy all source files, including TypeScript and prisma folder
+# Copy the rest of the application files
 COPY . .
 
-# Build TypeScript (pastikan ada tsconfig.json)
-RUN npm run build
+# Build TypeScript
+RUN npx tsc
 
-EXPOSE 3000
-
-CMD ["npm", "start"]
+# Set working directory for app to run
+CMD ["node", "dist/index.js"]
