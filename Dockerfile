@@ -14,5 +14,7 @@ COPY . .
 # Build TypeScript
 RUN npx tsc
 
+EXPOSE 3000
+
 # Set working directory for app to run
-CMD ["node", "dist/index.js"]
+CMD ["npm","start"]
